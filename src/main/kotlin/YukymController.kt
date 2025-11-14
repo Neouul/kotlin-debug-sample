@@ -5,12 +5,12 @@ import java.time.format.DateTimeFormatter
 
 class YukymController {
 
+    // nowDate의 mm 값이 이상함
     val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
 
     lateinit var nowTime: String
 
     fun getTyA(): String {
-        // nowDate의 mm 값이 이상함
         val timeDataOne = _getTimeDataOne(nowDate)
 
         if (timeDataOne.isNotEmpty()) {
@@ -38,21 +38,23 @@ class YukymController {
         var result = timeDataOne.first().ty12
 
         val nowTime = LocalDateTime.now()
-        when {
+        return when (nowTime.hour) {
             // 시간은 항상 0보다 크거나 같으므로 항상 "갑자1국"이 반환됨
-            nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
-            nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
-            nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
-            nowTime.hour >= 8 || nowTime.hour < 10 -> return timeDataOne.first().ty4
-            nowTime.hour >= 10 || nowTime.hour < 12 -> return timeDataOne.first().ty5
-            nowTime.hour >= 12 || nowTime.hour < 14 -> return timeDataOne.first().ty6
-            nowTime.hour >= 16 || nowTime.hour < 18 -> return timeDataOne.first().ty7
-            nowTime.hour >= 18 || nowTime.hour < 20 -> return timeDataOne.first().ty8
-            nowTime.hour >= 20 || nowTime.hour < 22 -> return timeDataOne.first().ty9
-            nowTime.hour >= 22 || nowTime.hour < 24 -> return timeDataOne.first().ty10
+            // 2~4, 14~16 시간대가 빠져있음
+            in 0 until 2 ->  timeDataOne.first().ty1
+            in 2 until 4 -> timeDataOne.first().ty2
+            in 4 until 6 -> timeDataOne.first().ty3
+            in 6 until 8 -> timeDataOne.first().ty4
+            in 8 until 10 -> timeDataOne.first().ty5
+            in 10 until 12 -> timeDataOne.first().ty6
+            in 12 until 14 -> timeDataOne.first().ty7
+            in 14 until 16 -> timeDataOne.first().ty8
+            in 16 until 18 -> timeDataOne.first().ty9
+            in 18 until 20 -> timeDataOne.first().ty10
+            in 20 until 22 -> timeDataOne.first().ty11
+            in 22 until 24 -> timeDataOne.first().ty12
+            else -> result
         }
-
-        return result
     }
 
     // 인자인 nowDate 값을 사용하지 않음
