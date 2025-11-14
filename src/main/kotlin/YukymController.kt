@@ -6,7 +6,9 @@ import java.time.format.DateTimeFormatter
 class YukymController {
 
     // nowDate의 mm 값이 이상함
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))
+    // ISO 8601 표준 yyyy-MM-dd'T'HH:mm:ss
+    // 즉, MM이 아닌 mm을 써서 분이 입력된 것
+    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     lateinit var nowTime: String
 
