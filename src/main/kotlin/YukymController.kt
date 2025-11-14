@@ -10,11 +10,14 @@ class YukymController {
     lateinit var nowTime: String
 
     fun getTyA(): String {
+        // nowDate의 mm 값이 이상함
         val timeDataOne = _getTimeDataOne(nowDate)
 
         if (timeDataOne.isNotEmpty()) {
+            // nowTime은 무조건 "갑자1국"
             nowTime = timeDataOne.first().ty1
 
+            // nowDate의 month값이 이상해서 항상 else로 처리됨 => "갑자1국"이 리턴됨
             val month = nowDate.substring(5, 7)
             return when (month) {
                 "01", "02" -> "경오1국"
@@ -36,6 +39,7 @@ class YukymController {
 
         val nowTime = LocalDateTime.now()
         when {
+            // 시간은 항상 0보다 크거나 같으므로 항상 "갑자1국"이 반환됨
             nowTime.hour >= 0 || nowTime.hour < 2 -> return timeDataOne.first().ty1
             nowTime.hour >= 4 || nowTime.hour < 6 -> return timeDataOne.first().ty2
             nowTime.hour >= 6 || nowTime.hour < 8 -> return timeDataOne.first().ty3
@@ -51,6 +55,8 @@ class YukymController {
         return result
     }
 
+    // 인자인 nowDate 값을 사용하지 않음
+    // timeDataOne 리스트에 YukymTimeModel의 인스턴스를 25개 넣어서 리턴
     private fun _getTimeDataOne(nowDate: String): List<YukymTimeModel> {
         val timeDataOne = mutableListOf<YukymTimeModel>()
         for (i in 0..24) {
